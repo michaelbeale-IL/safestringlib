@@ -8,8 +8,8 @@
  *------------------------------------------------------------------
  */
 
-#include "test_private.h"
-#include "safe_str_lib.h"
+// #include "test_private.h"
+#include "../include/safe_str_lib.h"
 
 #define MAX   ( 128 )
 #define LEN   ( 128 )
@@ -17,7 +17,7 @@
 static char   str1[LEN];
 static char   str2[LEN];
 
-int test_strcpy_s (void)
+int test_strcpy_s (uint8_t* data, size_t size)
 {
     errno_t rc;
 #ifdef SAFE_LIB_STR_NULL_SLACK
@@ -44,4 +44,7 @@ int test_strcpy_s (void)
     return (0);
 }
 
-
+extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
+    test_strcpy_s(data, size);
+    return 0;
+}
